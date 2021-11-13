@@ -1,0 +1,7 @@
+- name: Ensure config is present
+  template:
+    src: "{{ role_path }}/templates/configuration.yaml.j2"
+    dest: "{{ zigbee2mqtt_data_path }}/configuration.yaml"
+    mode: 0644
+  notify:
+  - Ensure service is restarted

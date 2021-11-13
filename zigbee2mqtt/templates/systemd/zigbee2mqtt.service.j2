@@ -1,0 +1,29 @@
+[Unit]
+Description=zigbee2mqtt server
+
+Requires=docker.service
+After=docker.service
+
+
+[Service]
+Type=simple
+Environment="HOME=/root"
+ExecStartPre=-/usr/bin/env sh -c '/usr/bin/env docker kill zigbee2mqtt 2>/dev/null'
+ExecStartPre=-/usr/bin/env sh -c '/usr/bin/env docker rm zigbee2mqtt 2>/dev/null'
+
+ExecStart=/usr/bin/env docker run --rm --name zigbee2mqtt \
+                        --device=/dev/ttyACM0 \
+                        -v '{{ zigbee2mqtt_data_path }}:/app/data' \
+                        -v /run/udev:/run/udev:ro \
+                        -e TZ={{ zigbee2mqtt_timezone }} \
+                        '{{ zigbee2mqtt_docker_image }}'
+
+ExecStop=-/usr/bin/env sh -c '/usr/bin/env docker kill zigbee2mqtt 2>/dev/null'
+ExecStop=-/usr/bin/env sh -c '/usr/bin/env docker rm zigbee2mqtt 2>/dev/null'
+
+Restart=always
+RestartSec=30
+SyslogIdentifier=zigbee2mqtt
+
+[Install]
+WantedBy=multi-user.target

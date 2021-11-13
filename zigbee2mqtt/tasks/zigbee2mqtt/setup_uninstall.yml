@@ -1,0 +1,22 @@
+---
+- name: Check existence of zigbee2mqtt.service
+  stat:
+    path: "{{ zigbee2mqtt_systemd_path }}/zigbee2mqtt.service"
+  register: zigbee2mqtt_service_stat
+
+- name: Ensure zigbee2mqtt is stopped
+  service:
+    name: zigbee2mqtt
+    state: stopped
+  when: "zigbee2mqtt_service_stat.stat.exists"
+
+- name: Ensure zigbee2mqtt_service_stat.service doesn't exist
+  file:
+    path: "{{ zigbee2mqtt_systemd_path }}/zigbee2mqtt.service"
+    state: absent
+  notify: Ensure systemd reloaded after service change installation
+
+- name: Ensure zigbee2mqtt Docker image doesn't exist
+  docker_image:
+    name: "{{ zigbee2mqtt_docker_image }}"
+    state: absent
