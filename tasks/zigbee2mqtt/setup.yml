@@ -1,0 +1,5 @@
+- import_tasks: "{{ role_path }}/tasks/zigbee2mqtt/setup_install.yml"
+  when: zigbee2mqtt_enabled|bool
+
+- import_tasks: "{{ role_path }}/tasks/zigbee2mqtt/setup_uninstall.yml"
+  when: "not zigbee2mqtt_enabled|bool"

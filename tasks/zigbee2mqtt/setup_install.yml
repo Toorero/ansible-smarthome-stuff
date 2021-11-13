@@ -1,0 +1,4 @@
+- import_tasks: "{{ role_path }}/tasks/zigbee2mqtt/install/setup_prerequisite.yml"
+- import_tasks: "{{ role_path }}/tasks/zigbee2mqtt/install/setup_docker_image.yml"
+- import_tasks: "{{ role_path }}/tasks/zigbee2mqtt/install/setup_config.yml"
+- import_tasks: "{{ role_path }}/tasks/zigbee2mqtt/install/setup_systemd.yml"
