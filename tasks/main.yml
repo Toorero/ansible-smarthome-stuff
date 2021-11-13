@@ -1,7 +1,0 @@
-- import_tasks: "{{ role_path }}/tasks/init.yml"
-  tags:
-    - always
-- import_tasks: "{{ role_path }}/tasks/zigbee2mqtt/setup.yml"
-  tags:
-    - setup-all
-    - setup-zigbee2mqtt
