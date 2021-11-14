@@ -10,7 +10,7 @@
     state: stopped
   when: "zigbee2mqtt_service_stat.stat.exists"
 
-- name: Ensure zigbee2mqtt_service_stat.service doesn't exist
+- name: Ensure zigbee2mqtt_service.service doesn't exist
   file:
     path: "{{ zigbee2mqtt_systemd_path }}/zigbee2mqtt.service"
     state: absent
