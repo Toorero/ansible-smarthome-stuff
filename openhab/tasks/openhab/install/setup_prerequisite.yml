@@ -28,10 +28,3 @@
     - { path: "{{ openhab_data_path }}/userdata", when: true}
     - { path: "{{ openhab_data_path }}/addons", when: true}
   when: "item.when"
-
-- name: Ensure Docker is installed
-  apt:
-    name:
-      - docker-ce
-      - "python{{'3' if ansible_python.version.major == 3 else ''}}-docker"
-    state: latest
