@@ -14,7 +14,7 @@
   file:
     path: "{{ zigbee2mqtt_systemd_path }}/zigbee2mqtt.service"
     state: absent
-  notify: Ensure systemd reloaded after service change installation
+  notify: Ensure systemd reloaded after zigbee2mqtt.service change installation
 
 - name: Ensure zigbee2mqtt Docker image doesn't exist
   docker_image:

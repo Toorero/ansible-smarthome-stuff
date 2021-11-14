@@ -4,8 +4,8 @@
     dest: "{{ openhab_systemd_path }}/openhab.service"
     mode: 0644
   notify:
-  - Ensure systemd reloaded after service change installation
-  - Ensure service is restarted
+  - Ensure systemd reloaded after openhab.service change installation
+  - Ensure openhab.service is restarted
 
 - name: Ensure openhab.service is started for setting appropriate permissions 
   when: openhab_enable_device

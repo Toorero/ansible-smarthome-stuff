@@ -1,9 +1,9 @@
-- name: Ensure systemd reloaded after service change installation
+- name: Ensure systemd reloaded after zigbee2mqtt.service change installation
   service:
     daemon_reload: yes
 
 # todo only restart if started
-- name: Ensure service is restarted
+- name: Ensure zigbee2mqtt.service is restarted
   when: zigbee2mqtt_enabled_service and zigbee2mqtt_service_now
   service:
       name: zigbee2mqtt

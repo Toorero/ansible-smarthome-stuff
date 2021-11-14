@@ -13,7 +13,7 @@
   file:
     path: "{{ openhab_systemd_path }}/openhab.service"
     state: absent
-  notify: Ensure systemd reloaded after service change installation
+  notify: Ensure systemd reloaded after openhab.service change installation
 
 - name: Ensure openhab Docker image doesn't exist
   docker_image:

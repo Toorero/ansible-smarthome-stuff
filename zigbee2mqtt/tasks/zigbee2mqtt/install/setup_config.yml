@@ -4,4 +4,4 @@
     dest: "{{ zigbee2mqtt_data_path }}/configuration.yaml"
     mode: 0644
   notify:
-  - Ensure service is restarted
+  - Ensure zigbee2mqtt.service is restarted

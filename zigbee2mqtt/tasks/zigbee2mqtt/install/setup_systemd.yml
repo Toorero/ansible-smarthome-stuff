@@ -4,8 +4,8 @@
     dest: "{{ zigbee2mqtt_systemd_path }}/zigbee2mqtt.service"
     mode: 0644
   notify:
-  - Ensure systemd reloaded after service change installation
-  - Ensure service is restarted
+  - Ensure systemd reloaded after zigbee2mqtt.service change installation
+  - Ensure zigbee2mqtt.service is restarted
 
 - name: Ensure zigbee2mqtt.service is enabled
   when: zigbee2mqtt_enabled_service and not zigbee2mqtt_service_now
