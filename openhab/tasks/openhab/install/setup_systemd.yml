@@ -15,7 +15,7 @@
 
 - name: Ensure appropriate permissions for device are set
   when: openhab_enable_device
-  docker_container_exec:
+  community.docker.docker_container_exec:
     container: openhab
     command: "/bin/chmod o+rw {{ openhab_dev_location }}"
 
