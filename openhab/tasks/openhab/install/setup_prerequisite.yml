@@ -1,0 +1,37 @@
+- name: Ensure openhab group is created
+  group:
+    name: "{{ openhab_user_groupname }}"
+    state: present
+  register: openhab_group_result
+
+- name: Ensure openhab user is created
+  user:
+    name: "{{ openhab_user_username }}"
+    state: present
+    group: "{{ openhab_user_groupname }}"
+    home: "{{ openhab_base_path }}"
+    create_home: no
+    system: yes
+    shell: "/sbin/nologin"
+  register: openhab_user_result
+
+- name: Ensure openHAB paths exist
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: 0750
+    owner: "{{ openhab_user_username }}"
+    group: "{{ openhab_user_groupname }}"
+  with_items:
+    - { path: "{{ openhab_docker_src_files_path }}", when: "{{ openhab_docker_image_self_build }}" }
+    - { path: "{{ openhab_data_path }}/conf", when: true}
+    - { path: "{{ openhab_data_path }}/userdata", when: true}
+    - { path: "{{ openhab_data_path }}/addons", when: true}
+  when: "item.when"
+
+- name: Ensure Docker is installed
+  apt:
+    name:
+      - docker-ce
+      - "python{{'3' if ansible_python.version.major == 3 else ''}}-docker"
+    state: latest

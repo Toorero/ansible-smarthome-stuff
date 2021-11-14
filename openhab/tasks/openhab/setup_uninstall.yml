@@ -1,0 +1,21 @@
+- name: Check existence of openhab.service
+  stat:
+    path: "{{ openhab_systemd_path }}/openhab.service"
+  register: openhab_service_stat
+
+- name: Ensure openhab is stopped
+  service:
+    name: openhab
+    state: stopped
+  when: "openhab_service_stat.stat.exists"
+
+- name: Ensure openhab_service.service doesn't exist
+  file:
+    path: "{{ openhab_systemd_path }}/openhab.service"
+    state: absent
+  notify: Ensure systemd reloaded after service change installation
+
+- name: Ensure openhab Docker image doesn't exist
+  docker_image:
+    name: "{{ openhab_docker_image }}"
+    state: absent

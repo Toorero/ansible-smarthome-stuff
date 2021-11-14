@@ -1,0 +1,11 @@
+- name: Ensure systemd reloaded after service change installation
+  service:
+    daemon_reload: yes
+
+# todo only restart if started
+- name: Ensure service is restarted
+  when: openhab_enabled_service
+  service:
+      name: openhab
+      state: restarted
+      enabled: true

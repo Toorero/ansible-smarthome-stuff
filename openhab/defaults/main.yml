@@ -1,0 +1,27 @@
+openhab_enabled: true
+
+openhab_base_path: "/openhab"
+openhab_docker_src_files_path: "{{ openhab_base_path }}/docker-src"
+openhab_data_path: "{{ openhab_base_path }}/data"
+
+openhab_user_username: openhab
+openhab_user_groupname: openhab
+
+openhab_enabled_service: true
+
+openhab_docker_image_self_build: false
+openhab_docker_image_self_build_repo: "https://github.com/openhab/openhab-docker"
+openhab_docker_image_self_build_type: "alpine"
+openhab_docker_image: "openhab/openhab"
+openhab_docker_image_force_pull: false
+
+openhab_systemd_path: "/etc/systemd/system"
+
+# config stuff
+openhab_enable_device: false
+openhab_dev_location: "/dev/ttyUSB0"
+openhab_java_opts: ""
+openhab_language: "en_US.UTF-8"
+openhab_http_port: 8080
+openhab_https_port: 8443
+openhab_crypto_policy: "unlimited"

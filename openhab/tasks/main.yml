@@ -1,0 +1,7 @@
+- import_tasks: "{{ role_path }}/tasks/init.yml"
+  tags:
+    - always
+- import_tasks: "{{ role_path }}/tasks/openhab/setup.yml"
+  tags:
+    - setup-all
+    - setup-openhab

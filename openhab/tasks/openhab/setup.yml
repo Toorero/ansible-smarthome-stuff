@@ -1,0 +1,5 @@
+- import_tasks: "{{ role_path }}/tasks/openhab/setup_install.yml"
+  when: openhab_enabled|bool
+
+- import_tasks: "{{ role_path }}/tasks/openhab/setup_uninstall.yml"
+  when: "not openhab_enabled|bool"

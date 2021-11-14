@@ -1,0 +1,43 @@
+[Unit]
+Description=openHAB docker server
+
+Requires=docker.service
+After=docker.service
+
+
+[Service]
+Type=simple
+Environment="HOME=/root"
+ExecStartPre=-/usr/bin/env sh -c '/usr/bin/env docker kill openhab 2>/dev/null'
+ExecStartPre=-/usr/bin/env sh -c '/usr/bin/env docker rm openhab 2>/dev/null'
+
+ExecStart=/usr/bin/env docker run --rm --name zigbee2mqtt \
+        --net=host \
+        -v /etc/localtime:/etc/localtime:ro \
+        -v /etc/timezone:/etc/timezone:ro \
+        -v '{{ openhab_data_path }}/conf':/openhab/conf \
+        -v '{{ openhab_data_path }}/userdata':/openhab/userdata \
+        -v '{{ openhab_data_path }}/addons':/openhab/addons \
+        {% if openhab_enable_device %}
+        --device='{{ openhab_dev_location }}' \
+        {% endif %}
+        -e USER_ID='{{ openhab_user_result.uid }}' \
+        -e GROUP_ID='{{ openhab_group_result.gid }}' \
+        -e CRYPTO_POLICY='{{ openhab_crypto_policy }}' \
+        -e EXTRA_JAVA_OPTS='{{ openhab_java_opts }}' \
+        -e LC_ALL='{{ openhab_language }}' \
+        -e LANG='{{ openhab_language }}' \
+        -e LANGUAGE='{{ openhab_language }}' \
+        -e OPENHAB_HTTP_PORT='{{ openhab_http_port }}' \
+        -e OPENHAB_HTTPS_PORT='{{ openhab_https_port }}' \
+        '{{ openhab_docker_image }}'
+
+ExecStop=-/usr/bin/env sh -c '/usr/bin/env docker kill openhab 2>/dev/null'
+ExecStop=-/usr/bin/env sh -c '/usr/bin/env docker rm openhab 2>/dev/null'
+
+Restart=always
+RestartSec=30
+SyslogIdentifier=openhab
+
+[Install]
+WantedBy=multi-user.target

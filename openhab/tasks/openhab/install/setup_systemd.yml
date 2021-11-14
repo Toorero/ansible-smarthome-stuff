@@ -1,0 +1,37 @@
+- name: Ensure openhab.service is present
+  template:
+    src: "{{ role_path }}/templates/systemd/openhab.service.j2"
+    dest: "{{ openhab_systemd_path }}/openhab.service"
+    mode: 0644
+  notify:
+  - Ensure systemd reloaded after service change installation
+  - Ensure service is restarted
+
+- name: Ensure openhab.service is started for setting appropriate permissions 
+  when: openhab_enable_device
+  service:
+    name: openhab
+    state: started
+
+- name: Ensure appropriate permissions for device are set
+  when: openhab_enable_device
+  docker_container_exec:
+    container: openhab
+    command: "/bin/chmod o+rw {{ openhab_dev_location }}"
+
+- name: Ensure openhab.service is enabled
+  when: openhab_enabled_service
+  service:
+    name: openhab
+    state: started
+    enabled: true
+
+- name: Ensure openhab.service is disabled
+  when: not openhab_enabled_service
+  service:
+    name: openhab
+    state: stopped
+    enabled: false
+
+- name: Flush handlers
+  meta: flush_handlers
