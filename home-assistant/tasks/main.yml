@@ -1,0 +1,5 @@
+- import_tasks: "{{ role_path }}/tasks/home-assistant/setup.yml"
+  tags:
+    - setup-all
+    - setup-ha
+    - setup-home-assistant

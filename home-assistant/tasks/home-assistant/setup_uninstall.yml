@@ -1,0 +1,21 @@
+- name: Check existence of home-assistant.service
+  stat:
+    path: "{{ openhab_systemd_path }}/home-assistant.service"
+  register: ha_service_stat
+
+- name: Ensure home-assistant is stopped
+  service:
+    name: home-assistant
+    state: stopped
+  when: "ha_service_stat.stat.exists"
+
+- name: Ensure home-assistant.service doesn't exist
+  file:
+    path: "{{ openhab_systemd_path }}/home-assistant.service"
+    state: absent
+  notify: Ensure systemd reloaded after home-assistant.service change installation
+
+- name: Ensure home-assistant Docker image doesn't exist
+  docker_image:
+    name: "{{ ha_docker_image }}"
+    state: absent

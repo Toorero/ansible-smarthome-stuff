@@ -1,0 +1,11 @@
+- name: Ensure systemd reloaded after home-assistant.service change installation
+  service:
+    daemon_reload: yes
+
+# todo only restart if started
+- name: Ensure home-assistant.service is restarted
+  when: ha_enabled_service
+  service:
+      name: home-assistant
+      state: restarted
+      enabled: true

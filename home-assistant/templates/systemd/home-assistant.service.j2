@@ -1,0 +1,35 @@
+[Unit]
+Description=home-assistant docker core
+
+Requires=docker.service
+After=docker.service
+
+
+[Service]
+Type=simple
+Environment="HOME=/root"
+ExecStartPre=-/usr/bin/env sh -c '/usr/bin/env docker kill home-assistant 2>/dev/null'
+ExecStartPre=-/usr/bin/env sh -c '/usr/bin/env docker rm home-assistant 2>/dev/null'
+
+ExecStart=/usr/bin/env docker run --rm --name home-assistant \
+        --privileged \
+        --network=host \
+        -v '{{ ha_config_path }}':/config \
+        -v /etc/localtime:/etc/localtime:ro \
+        {% if ha_enable_device %}
+        --device='{{ ha_dev_location }}:/dev/ttyUSB0' \
+        {% endif %}
+        {% if ha_disable_jemalloc %}
+        -e "DISABLE_JEMALLOC=true" \
+        {% endif %}
+        '{{ ha_docker_image }}'
+
+ExecStop=-/usr/bin/env sh -c '/usr/bin/env docker kill home-assistant 2>/dev/null'
+ExecStop=-/usr/bin/env sh -c '/usr/bin/env docker rm home-assistant 2>/dev/null'
+
+Restart=always
+RestartSec=30
+SyslogIdentifier=home-assistant
+
+[Install]
+WantedBy=multi-user.target

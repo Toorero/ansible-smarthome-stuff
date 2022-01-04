@@ -1,0 +1,22 @@
+ha_enabled: true
+
+ha_base_path: "/home-assistant"
+ha_docker_src_files_path: "{{ ha_base_path }}/docker-src"
+ha_data_path: "{{ ha_base_path }}/data"
+ha_config_path: "{{ ha_base_path }}/config"
+
+ha_user_username: ha
+ha_user_groupname: ha
+
+ha_enabled_service: true
+
+ha_docker_image_self_build: false
+ha_docker_image_self_build_repo: "https://github.com/home-assistant/core"
+ha_docker_image: "ghcr.io/home-assistant/home-assistant"
+ha_docker_image_force_pull: false
+ha_systemd_path: "/etc/systemd/system"
+
+# config stuff
+ha_enable_device: false
+ha_dev_location: "/dev/ttyUSB0"
+ha_disable_jemalloc: false

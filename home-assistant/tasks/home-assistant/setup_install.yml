@@ -1,0 +1,3 @@
+- import_tasks: "{{ role_path }}/tasks/home-assistant/install/setup_prerequisite.yml"
+- import_tasks: "{{ role_path }}/tasks/home-assistant/install/setup_docker_image.yml"
+- import_tasks: "{{ role_path }}/tasks/home-assistant/install/setup_systemd.yml"

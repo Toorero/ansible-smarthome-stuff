@@ -1,0 +1,37 @@
+- name: Ensure home-assistant.service is present
+  template:
+    src: "{{ role_path }}/templates/systemd/home-assistant.service.j2"
+    dest: "{{ ha_systemd_path }}/home-assistant.service"
+    mode: 0644
+  notify:
+  - Ensure systemd reloaded after home-assistant.service change installation
+  - Ensure home-assistant.service is restarted
+
+- name: Ensure home-assistant.service is started for setting appropriate permissions 
+  when: ha_enable_device
+  service:
+    name: home-assistant
+    state: started
+
+- name: Ensure appropriate permissions for device are set
+  when: ha_enable_device
+  community.docker.docker_container_exec:
+    container: home-assistant
+    command: "/bin/chmod o+rw {{ ha_dev_location }}"
+
+- name: Ensure home-assistant.service is enabled
+  when: ha_enabled_service
+  service:
+    name: ha
+    state: started
+    enabled: true
+
+- name: Ensure home-assistant.service is disabled
+  when: not ha_enabled_service
+  service:
+    name: home-assistant
+    state: stopped
+    enabled: false
+
+- name: Flush handlers
+  meta: flush_handlers
