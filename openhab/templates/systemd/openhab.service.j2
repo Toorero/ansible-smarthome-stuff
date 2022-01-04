@@ -11,7 +11,7 @@ Environment="HOME=/root"
 ExecStartPre=-/usr/bin/env sh -c '/usr/bin/env docker kill openhab 2>/dev/null'
 ExecStartPre=-/usr/bin/env sh -c '/usr/bin/env docker rm openhab 2>/dev/null'
 
-ExecStart=/usr/bin/env docker run --rm --name zigbee2mqtt \
+ExecStart=/usr/bin/env docker run --rm --name openhab \
         --net=host \
         -v /etc/localtime:/etc/localtime:ro \
         -v /etc/timezone:/etc/timezone:ro \
