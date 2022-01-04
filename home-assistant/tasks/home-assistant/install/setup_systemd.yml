@@ -22,7 +22,7 @@
 - name: Ensure home-assistant.service is enabled
   when: ha_enabled_service
   service:
-    name: ha
+    name: home-assistant
     state: started
     enabled: true
 
